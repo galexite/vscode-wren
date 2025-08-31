@@ -17,7 +17,7 @@
         "url": "https://github.com/Nelarius/vscode-wren"
     },
     "categories": [
-        "Languages", "Snippets"
+        "Programming Languages", "Snippets"
     ],
     "contributes": {
         "languages": [

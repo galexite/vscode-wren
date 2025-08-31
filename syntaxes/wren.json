@@ -17,6 +17,34 @@
             "end": "\\*/",
             "patterns": [ { "include": "#blockComment" } ]
         },
+        "import": {
+            "patterns": [
+                {
+                    "begin": "\\b(import)\\b",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "keyword.control.import.wren"
+                        }
+                    },
+                    "end": "$|(?=//|/\\*)",
+                    "patterns": [
+                        { "include": "#string" },
+                        {
+                            "name": "keyword.control.import.wren",
+                            "match": "\\b(?:for)\\b"
+                        },
+                        {
+                            "name": "punctuation.separator.parameter.wren",
+                            "match": ","
+                        },
+                        {
+                            "name": "entity.name.type.wren",
+                            "match": "\\b(?:[:alnum:]+)\\b"
+                        }
+                    ]
+                }
+            ]
+        },
         "block": {
             "begin": "{",
             "beginCaptures": {
@@ -48,10 +76,25 @@
         },
         "keyword": {
             "patterns": [
+                { "include": "#import" },
+                { "include": "#control" },
+                { "include": "#operator" }
+            ]
+        },
+        "control": {
+            "patterns": [
                 {
                     "name": "keyword.control.wren",
-                    "match": "\\b(?:as|break|continue|else|for|if|import|in|return|while|var)\\b"
+                    "match": "\\b(?:as|var)\\b"
                 },
+                {
+                    "name": "keyword.control.flow.wren",
+                    "match": "\\b(?:break|continue|else|for|if|return|while)\\b"
+                }
+            ]
+        },
+        "operator": {
+            "patterns": [
                 {
                     "name": "keyword.operator.wren",
                     "match": "\\b(is)\\b"
@@ -122,7 +165,7 @@
             "patterns": [
                 {
                     "name": "constant.character.escape.wren",
-                    "match": "\\\\(?:[0\"\\abefnrtv]|x[0-9A-Fa-f]{2}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{4})"
+                    "match": "\\\\(?:[0\"\\abefnrtv%]|x[0-9A-Fa-f]{2}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{4})"
                 },
                 {
                     "name": "invalid.illegal.unknown-escape.wren",
@@ -130,7 +173,24 @@
                 },
                 {
                     "name": "constant.character.interpolation.wren",
-                    "match": "%\\((.*?)\\)"
+                    "begin": "%\\(",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.template-expression.begin.wren"
+                        }
+                    },
+                    "end": "\\)",
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.template-expression.end.wren"
+                        }
+                    },
+                    "patterns": [
+                        { "include": "#comment" },
+                        { "include": "#blockComment" },
+                        { "include": "#expression" }
+                    ],
+                    "contentName": "meta.embedded.line.wren"
                 }
             ]
         },
@@ -164,19 +224,25 @@
         },
         "code": {
             "patterns": [
-                { "include": "#attribute" },
-                { "include": "#class" },
                 { "include": "#blockComment" },
                 { "include": "#comment" },
-                { "include": "#block" },
+                { "include": "#class" },
                 { "include": "#keyword" },
+                { "include": "#expression" }
+            ]
+        },
+        "expression": {
+            "patterns": [
+                { "include": "#attribute" },
+                { "include": "#block" },
                 { "include": "#constant" },
                 { "include": "#variable" },
                 { "include": "#string" },
                 { "include": "#multilineString" },
                 { "include": "#function" },
                 { "include": "#static_function" },
-                { "include": "#static_constant" }
+                { "include": "#static_constant" },
+                { "include": "#operator" }
             ]
         },
         "attribute": {
