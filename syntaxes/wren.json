@@ -31,7 +31,7 @@
                         { "include": "#string" },
                         {
                             "name": "keyword.control.import.wren",
-                            "match": "\\b(?:for)\\b"
+                            "match": "\\b(?:for|as)\\b"
                         },
                         {
                             "name": "punctuation.separator.parameter.wren",
@@ -85,7 +85,7 @@
             "patterns": [
                 {
                     "name": "keyword.control.wren",
-                    "match": "\\b(?:as|var)\\b"
+                    "match": "\\b(?:var)\\b"
                 },
                 {
                     "name": "keyword.control.flow.wren",
